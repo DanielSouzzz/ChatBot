@@ -4,9 +4,15 @@ CHAVE_API = "6221818830:AAEpSJ4tfSFiHW1nHYB4r6wmKNd-FBpwFEk"
 
 bot = telebot.TeleBot(CHAVE_API)
 
-@bot.message_handler(commands=["op1"])
-def op1(mensagem):
-    bot.send_message(mensagem.chat.id, "texto para op1")
+@bot.message_handler(commands=["opcao01"])
+def opcao01(mensagem):
+    resposta_opcao11 = f"""
+    Hoários disponíveis para 03/07/2023:
+    /opcao1: 15h00
+    /opcao2: 16h00
+    /opcao3: 19h00
+    """
+    bot.send_message(mensagem.chat.id, resposta_opcao11)
 
 @bot.message_handler(commands=["op2"])
 def op2(mensagem):
@@ -18,16 +24,17 @@ def op3(mensagem):
 
 @bot.message_handler(commands=["opcao1"])
 def opcao1(mensagem):
-    print(mensagem)
-    nome_usuario = mensagem.from_user.username
-    '''resposta_opcao1 = """
-    Olá {}.Gostaria de agendar qual de nossos serviços? (Clique em uma opção)
-    /Corte de cabelo
-    /Corte+barba
-    /outros""".format(nome_usuario)'''
-    resposta_opcao1 = f"Opção 1 selecionada por {nome_usuario}."
+    #print(mensagem)
+    #nome_usuario = mensagem.from_user.first_name
+    resposta_opcao1 = f"""
+    Qual serviço você deseja agendar? (Clique no item)
+    /opcao01: corte de cabelo
+    /opcao2: corte + barba
+    /opcao3: voltar"""
+    #resposta_opcao1 = f"Opção 1 selecionada por {nome_usuario}."
     bot.send_message(mensagem.chat.id, resposta_opcao1)#envia a veriavel mensagem para o end do .chat.id
-
+    #bot.reply_to(mensagem, opcao01)
+    
 @bot.message_handler(commands=["opcao2"])
 def opcao2(mensagem):
     bot.send_message(mensagem.chat.id, "Cancelado")
@@ -44,12 +51,14 @@ def verificar(mensagem):
 # menu principal
 @bot.message_handler(func=verificar)
 def responder(mensagem):
-    #print(mensagem)
-    menu = """
-    Escolha uma opção para continuar (Clique no item):
-     /opcao1 agendar um serviço
-     /opcao2 cancelar um agendamento
-     /opcao3 quem nós somos
+    nome_usuario1 = mensagem.from_user.first_name
+    menu = f"""
+    Olá, {nome_usuario1}. Bem vindo(a) a barberia Souza&Souza!
+    Escolha uma opção para continuar
+    (Clique no item):
+    /opcao1: Agendar um de nossos serviços
+    /opcao2: Cancelar um agendamento
+    /opcao3: Falar com um atendente
     """
     bot.reply_to(mensagem, menu)
     #processar_opcao1(mensagem)
